@@ -1,2 +1,2 @@
 # estimate
-web software estimate platform
+web application estimate platform
