@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 
 /**
- * @author kang
+ * @author 叶兆康
  */
 @TableName("file")
 public class FileEntity {
@@ -16,10 +16,12 @@ public class FileEntity {
     private String path;
     private String fileName;
     private Long totalSize;
-    private Integer createBy;
-    private Date createTime;
     @TableLogic
     private String stsCd;
+    private Integer createBy;
+    private Date createTime;
+    private Integer updateBy;
+    private Date updateTime;
 
     public Integer getId() {
         return id;
@@ -53,6 +55,14 @@ public class FileEntity {
         this.totalSize = totalSize;
     }
 
+    public String getStsCd() {
+        return stsCd;
+    }
+
+    public void setStsCd(String stsCd) {
+        this.stsCd = stsCd;
+    }
+
     public Integer getCreateBy() {
         return createBy;
     }
@@ -69,11 +79,19 @@ public class FileEntity {
         this.createTime = createTime;
     }
 
-    public String getStsCd() {
-        return stsCd;
+    public Integer getUpdateBy() {
+        return updateBy;
     }
 
-    public void setStsCd(String stsCd) {
-        this.stsCd = stsCd;
+    public void setUpdateBy(Integer updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * @author kang
+ * @author 叶兆康
  */
 @Mapper
 public interface UserMapper extends BaseMapper<User> {

@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @author kang
+ * @author 叶兆康
  */
 @Mapper
 public interface ServerMapper extends BaseMapper<Server> {

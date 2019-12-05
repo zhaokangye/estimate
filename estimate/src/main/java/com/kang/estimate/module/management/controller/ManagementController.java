@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author kang
+ * @author 叶兆康
  */
 @RestController
 public class ManagementController extends BaseController {
@@ -55,6 +55,13 @@ public class ManagementController extends BaseController {
     @GetMapping("/login")
     public CommonReturnType reLogin(){
         return CommonReturnType.create("relogin","fail");
+    }
+
+    @GetMapping("/logout")
+    public CommonReturnType logout(){
+        Subject subject=SecurityUtils.getSubject();
+        subject.logout();
+        return CommonReturnType.create(null);
     }
 
     /**

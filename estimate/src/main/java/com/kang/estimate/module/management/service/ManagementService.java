@@ -14,10 +14,10 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
-@Service
 /**
- * @author kang
+ * @author 叶兆康
  */
+@Service
 public class ManagementService {
 
     @Autowired
@@ -37,7 +37,6 @@ public class ManagementService {
 
     public boolean addServer(Server server){
         Integer userId=shiroKit.getId();
-        server.setUserId(userId);
         server.setCreateBy(userId);
         server.setCreateTime(new Date());
         server.setId(null);
@@ -58,6 +57,8 @@ public class ManagementService {
     }
 
     public boolean editServer(Server server){
+        server.setUpdateBy(shiroKit.getId());
+        server.setUpdateTime(new Date());
         serverMapper.updateById(server);
         return true;
     }

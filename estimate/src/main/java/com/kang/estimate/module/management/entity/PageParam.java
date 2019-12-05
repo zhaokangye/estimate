@@ -1,7 +1,7 @@
 package com.kang.estimate.module.management.entity;
 
 /**
- * @author kang
+ * @author 叶兆康
  */
 public class PageParam {
 

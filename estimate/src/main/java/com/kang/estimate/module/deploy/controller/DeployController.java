@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @author kang
+ * @author 叶兆康
  */
 @RestController
 @RequestMapping("/deploy")
@@ -26,6 +26,7 @@ public class DeployController extends BaseController {
      */
     @PostMapping("/path")
     public CommonReturnType findPath(@RequestParam String host,@RequestParam String pattern){
+        System.out.println(host+pattern);
         switch (pattern){
             case "webapps":
                 return CommonReturnType.create(deployService.findWebappsPath(host));
@@ -34,7 +35,6 @@ public class DeployController extends BaseController {
             default:
                 throw new BussinessException(EmBussinessError.PATH_NOT_FOUND);
         }
-
     }
 
     /**

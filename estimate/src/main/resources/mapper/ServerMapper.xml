@@ -6,22 +6,23 @@
         select *
         from server
         where stsCd='A'
-        and userId=#{userId}
+        and createBy=#{userId}
     </select>
 
     <select id="selectServerList" resultType="com.kang.estimate.module.management.entity.Server">
         select *
         from server
-        where stsCd='A' and userId=#{userId}
+        where stsCd='A' and createBy=#{userId}
     </select>
 
     <select id="selectByHost" resultType="com.kang.estimate.module.management.entity.Server">
         select *
         from server
         where stsCd='A'
-        and userId=#{userId}
+        and createBy=#{userId}
         and host=#{host}
     </select>
+
 </mapper>
 
 

@@ -9,6 +9,7 @@ public enum EmBussinessError implements CommonError {
     UNKNOW_ERROR(10002,"未知错误"),
     NOT_EXIST(10003,"请求的资源不存在"),
     NOT_AUTHORIZE(10004,"无权限"),
+    PARAMETER_LACK(10005,"缺少足够参数"),
 
     // 登陆相关
     ALREADY_REGISTERD(20001,"该用户名已注册"),

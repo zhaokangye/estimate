@@ -1,4 +1,4 @@
-package com.kang.estimate.module.management.entity;
+package com.kang.estimate.module.pressure.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableLogic;
@@ -9,16 +9,15 @@ import java.util.Date;
 
 /**
  * @author 叶兆康
+ * @date 2019-11-26 08:59:15
  */
-@TableName("server")
-public class Server {
+@TableName("header")
+public class HeaderEntity {
     @TableId(value = "id" , type = IdType.AUTO)
     private Integer id;
-    private String host;
-    private Integer port;
-    private String userName;
-    private String password;
-    private String serverName;
+    private Integer planId;
+    private String headerKey;
+    private String headerValue;
     @TableLogic
     private String stsCd;
     private Integer createBy;
@@ -34,44 +33,28 @@ public class Server {
         this.id = id;
     }
 
-    public String getHost() {
-        return host;
+    public Integer getPlanId() {
+        return planId;
     }
 
-    public void setHost(String host) {
-        this.host = host;
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
     }
 
-    public Integer getPort() {
-        return port;
+    public String getHeaderKey() {
+        return headerKey;
     }
 
-    public void setPort(Integer port) {
-        this.port = port;
+    public void setHeaderKey(String headerKey) {
+        this.headerKey = headerKey;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getHeaderValue() {
+        return headerValue;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getServerName() {
-        return serverName;
-    }
-
-    public void setServerName(String serverName) {
-        this.serverName = serverName;
+    public void setHeaderValue(String headerValue) {
+        this.headerValue = headerValue;
     }
 
     public String getStsCd() {
