@@ -9,6 +9,8 @@ public class PageParam {
 
     private Integer size=10;
 
+    private String identifyCode;
+
     public Integer getPn() {
         return pn;
     }
@@ -23,5 +25,13 @@ public class PageParam {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    public String getIdentifyCode() {
+        return identifyCode;
+    }
+
+    public void setIdentifyCode(String identifyCode) {
+        this.identifyCode = identifyCode;
     }
 }

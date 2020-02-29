@@ -4,7 +4,7 @@ import com.kang.estimate.core.base.controller.BaseController;
 import com.kang.estimate.core.error.BussinessException;
 import com.kang.estimate.core.error.EmBussinessError;
 import com.kang.estimate.core.response.CommonReturnType;
-import com.kang.estimate.module.deploy.service.DeployService;
+import com.kang.estimate.module.deploy.service.impl.DeployServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class DeployController extends BaseController {
 
     @Autowired
-    private DeployService deployService;
+    private DeployServiceImpl deployService;
 
     /**
      * 获得webapps的路径
@@ -82,4 +82,33 @@ public class DeployController extends BaseController {
         return CommonReturnType.create(deployService.uploadProgress(src));
     }
 
+    /**
+     * 重启tomcat
+     * @param host
+     * @return
+     */
+    @PostMapping("/restart")
+    public CommonReturnType restartTomcat(@RequestParam String host) throws InterruptedException {
+        return CommonReturnType.create(deployService.restartTomcat(host));
+    }
+
+    /**
+     * 列出webapps下所有文件
+     * @param host
+     * @return
+     */
+    @PostMapping("/listAll")
+    public CommonReturnType listAll(@RequestParam String host){
+        return CommonReturnType.create(deployService.listAll(host));
+    }
+
+    /**
+     * 删除webapps下文件
+     * @param host
+     * @return
+     */
+    @PostMapping("/delete")
+    public CommonReturnType delete(@RequestParam String host,@RequestParam String path){
+        return CommonReturnType.create(deployService.delete(host,path));
+    }
 }

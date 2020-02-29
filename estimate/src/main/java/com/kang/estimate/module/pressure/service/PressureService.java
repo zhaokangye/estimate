@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.kang.estimate.core.jmeter.TestPlanLauncher;
 import com.kang.estimate.core.redis.RedisUtil;
 import com.kang.estimate.core.shiro.ShiroKit;
+import com.kang.estimate.module.management.entity.PageParam;
 import com.kang.estimate.module.pressure.dao.ArgumentMapper;
 import com.kang.estimate.module.pressure.dao.HeaderMapper;
 import com.kang.estimate.module.pressure.dao.PressurePlanMapper;
@@ -46,16 +47,20 @@ public class PressureService {
         return pressureParams.getIdentifyCode();
     }
 
-    public Map<String,Object> obtainPressureTestResult(String identifyCode){
-        List<Sample> sampleList= JSONObject.parseArray(redisUtil.lGet(identifyCode,0,-1).toString(),Sample.class);
-        Sample beginSample=JSONObject.parseObject(redisUtil.lGetIndex(identifyCode,0).toString(),Sample.class);
-        Sample endSample=JSONObject.parseObject(redisUtil.lGetIndex(identifyCode,-1).toString(),Sample.class);
-        //计算tps
+    public Map<String,Object> obtainPressureTestResult(PageParam pageParam){
+        // 分页
+        List<Sample> sampleList= JSONObject.parseArray(redisUtil.lGet(pageParam.getIdentifyCode(),pageParam.getPn(),pageParam.getPn()+pageParam.getSize()).toString(),Sample.class);
+        // 总结果
+        Sample beginSample=JSONObject.parseObject(redisUtil.lGetIndex(pageParam.getIdentifyCode(),0).toString(),Sample.class);
+        Sample endSample=JSONObject.parseObject(redisUtil.lGetIndex(pageParam.getIdentifyCode(),-1).toString(),Sample.class);
+        // 计算tps
         long ms=endSample.getEndTime()-beginSample.getStartTime();
-        long listSize=redisUtil.lGetListSize(identifyCode);
+        long listSize=redisUtil.lGetListSize(pageParam.getIdentifyCode());
         BigDecimal s=new BigDecimal(ms).divide(new BigDecimal(1000),2,ROUND_HALF_UP);
         BigDecimal tps=new BigDecimal(listSize).divide(s,2,ROUND_HALF_UP);
+        // 整合到返回map
         Map<String,Object> returnVal=new HashMap<>(2);
+        returnVal.put("total",listSize);
         returnVal.put("sampleList",sampleList);
         returnVal.put("tps",listSize+" in "+s+"s="+tps+"/s");
         return returnVal;
@@ -117,6 +122,7 @@ public class PressureService {
         BeanUtils.copyProperties(pressureParams,pressurePlanEntity);
         pressurePlanEntity.setUpdateBy(userId);
         pressurePlanEntity.setUpdateTime(new Date());
+        // todo port为null无法更新
         pressurePlanMapper.updateById(pressurePlanEntity);
         Integer planId=pressurePlanEntity.getId();
         // 修改请求头

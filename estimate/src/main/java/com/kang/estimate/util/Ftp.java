@@ -3,12 +3,13 @@ package com.kang.estimate.util;
 import com.jcraft.jsch.*;
 import com.kang.estimate.core.error.BussinessException;
 import com.kang.estimate.core.error.EmBussinessError;
+import com.kang.estimate.module.management.dao.ServerMapper;
 import com.kang.estimate.module.management.entity.Server;
 
 import java.io.InputStream;
 
 /**
- * @author kang
+ * @author 叶兆康
  */
 public class Ftp {
 
@@ -61,6 +62,11 @@ public class Ftp {
         }
     }
 
+    /**
+     * 执行命令
+     * @param commad
+     * @return
+     */
     public StringBuilder execCommad(String commad){
         StringBuilder executeResultString = new StringBuilder();
         try{
@@ -96,12 +102,17 @@ public class Ftp {
         return executeResultString;
     }
 
-    public void upload(String src,String dst,long totalSize){
+    /**
+     * 普通上传
+     * @param src
+     * @param dst
+     */
+    public void upload(String src,String dst){
         try {
             Channel channel = session.openChannel("sftp");
             channel.connect();
             ChannelSftp channelSftp = (ChannelSftp) channel;
-            channelSftp.put(src, dst,new UploadProgressMonitor(src,totalSize),ChannelSftp.OVERWRITE);
+            channelSftp.put(src, dst);
             channelSftp.quit();
             channel.disconnect();
             closeSession();
@@ -111,33 +122,23 @@ public class Ftp {
         }
     }
 
-    public String findWebappsPath(){
+    /**
+     * 带进度条的上传
+     * @param src
+     * @param dst
+     * @param totalSize
+     * @param key
+     */
+    public void upload(String src,String dst,long totalSize,String key){
         try {
-            StringBuilder path = execCommad(Const.FIND_WEBAPPS);
-            if(path.indexOf(".")==0){
-                path=path.replace(0,1,"/usr");
-            }
-            return Common.replaceBlank(path.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new BussinessException(EmBussinessError.UNKNOW_ERROR);
-        }
-    }
-
-    public String findBinPath(){
-        try {
-            StringBuilder commadResult = execCommad(Const.FIND_BIN);
-            String[] paths=commadResult.toString().split("\n");
-            for(String path:paths){
-                if(path.contains("tomcat")){
-                    if(path.indexOf(".")==0){
-                        path=path.replaceFirst(".","/usr");
-                    }
-                    return Common.replaceBlank(path);
-                }
-            }
-            throw new BussinessException(EmBussinessError.PATH_NOT_FOUND);
-        } catch (Exception e) {
+            Channel channel = session.openChannel("sftp");
+            channel.connect();
+            ChannelSftp channelSftp = (ChannelSftp) channel;
+            channelSftp.put(src, dst,new UploadProgressMonitor(key,totalSize),ChannelSftp.OVERWRITE);
+            channelSftp.quit();
+            channel.disconnect();
+            closeSession();
+        }catch (Exception e){
             e.printStackTrace();
             throw new BussinessException(EmBussinessError.UNKNOW_ERROR);
         }
@@ -150,6 +151,5 @@ public class Ftp {
         server.setPort(22);
         server.setPassword("pokemonYZK98");
         Ftp ftp=Ftp.getFtpUtil(server);
-        System.out.println(ftp.findBinPath());
     }
 }

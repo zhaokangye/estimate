@@ -35,7 +35,7 @@ public class ShiroConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/user", "anon");
-        filterChainDefinitionMap.put("/deploy/path", "anon");
+        filterChainDefinitionMap.put("/monitor/updateStats", "anon");
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setLoginUrl("/login");
         /*
@@ -96,7 +96,7 @@ public class ShiroConfig {
     @Bean
     public SessionManager sessionManager() {
         MySessionManager mySessionManager = new MySessionManager();
-        mySessionManager.setGlobalSessionTimeout(3600000);
+        mySessionManager.setGlobalSessionTimeout(3600000L);
         return mySessionManager;
     }
 

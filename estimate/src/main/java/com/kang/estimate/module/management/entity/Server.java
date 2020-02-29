@@ -19,6 +19,9 @@ public class Server {
     private String userName;
     private String password;
     private String serverName;
+    private String cpuCores;
+    private String modelName;
+    private String memTotal;
     @TableLogic
     private String stsCd;
     private Integer createBy;
@@ -112,5 +115,29 @@ public class Server {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getCpuCores() {
+        return cpuCores;
+    }
+
+    public void setCpuCores(String cpuCores) {
+        this.cpuCores = cpuCores;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public String getMemTotal() {
+        return memTotal;
+    }
+
+    public void setMemTotal(String memTotal) {
+        this.memTotal = memTotal;
     }
 }

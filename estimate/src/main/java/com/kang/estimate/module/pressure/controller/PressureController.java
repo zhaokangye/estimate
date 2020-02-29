@@ -5,6 +5,7 @@ import com.kang.estimate.core.base.controller.BaseController;
 import com.kang.estimate.core.error.BussinessException;
 import com.kang.estimate.core.error.EmBussinessError;
 import com.kang.estimate.core.response.CommonReturnType;
+import com.kang.estimate.module.management.entity.PageParam;
 import com.kang.estimate.module.pressure.entity.PressureParams;
 import com.kang.estimate.module.pressure.entity.PressurePlanEntity;
 import com.kang.estimate.module.pressure.service.PressureService;
@@ -94,11 +95,11 @@ public class PressureController extends BaseController {
 
     /**
      * 压力测试结果
-     * @param identifyCode
+     * @param pageParam
      * @return
      */
-    @GetMapping("/result/{identifyCode}")
-    public CommonReturnType obtainPressureTestResult(@PathVariable String identifyCode){
-        return CommonReturnType.create(pressureService.obtainPressureTestResult(identifyCode));
+    @PostMapping("/result")
+    public CommonReturnType obtainPressureTestResult(@RequestBody PageParam pageParam){
+        return CommonReturnType.create(pressureService.obtainPressureTestResult(pageParam));
     }
 }

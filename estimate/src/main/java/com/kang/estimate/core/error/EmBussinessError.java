@@ -20,7 +20,11 @@ public enum EmBussinessError implements CommonError {
     CONNECT_REFUSED(30001,"主机连接失败"),
     SESSION_CLOSE_ERROR(30002,"FTP关闭SESSION错误"),
     REPEAT_UPLOAD(30003,"上传资源重复"),
-    PATH_NOT_FOUND(30004,"找不到指定路径")
+    PATH_NOT_FOUND(30004,"找不到指定路径"),
+    TOMCAT_STOP_FAIL(30005,"Tomcat关闭失败"),
+
+    // 监控相关
+    TIME_FORMATE_ERROR(40001,"时间日期解析出错")
     ;
 
     private int errCode;

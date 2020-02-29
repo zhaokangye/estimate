@@ -1,11 +1,15 @@
 package com.kang.estimate.module.management.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.kang.estimate.core.error.BussinessException;
+import com.kang.estimate.core.error.EmBussinessError;
 import com.kang.estimate.core.shiro.ShiroKit;
 import com.kang.estimate.module.management.dao.ServerMapper;
 import com.kang.estimate.module.management.dao.UserMapper;
 import com.kang.estimate.module.management.entity.Server;
 import com.kang.estimate.module.management.entity.User;
+import com.kang.estimate.util.Common;
+import com.kang.estimate.util.Const;
 import com.kang.estimate.util.Ftp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +31,12 @@ public class ManagementService {
     @Resource
     private ShiroKit shiroKit;
 
+    /**
+     * 添加用户
+     * @param userName
+     * @param password
+     * @return
+     */
     public boolean addUser(String userName,String password){
         User user=new User();
         user.setUserName(userName);
@@ -35,6 +45,11 @@ public class ManagementService {
         return true;
     }
 
+    /**
+     * 添加服务器记录
+     * @param server
+     * @return
+     */
     public boolean addServer(Server server){
         Integer userId=shiroKit.getId();
         server.setCreateBy(userId);
@@ -45,17 +60,21 @@ public class ManagementService {
         return true;
     }
 
+    /**
+     * 删除服务器记录
+     * @param serverId
+     * @return
+     */
     public boolean deleteServer(Integer serverId){
         serverMapper.deleteById(serverId);
         return true;
     }
 
-    public Server serverDetail(Integer serverId){
-        Server server=serverMapper.selectById(serverId);
-        server.setPassword(null);
-        return server;
-    }
-
+    /**
+     * 编辑服务器
+     * @param server
+     * @return
+     */
     public boolean editServer(Server server){
         server.setUpdateBy(shiroKit.getId());
         server.setUpdateTime(new Date());
@@ -63,17 +82,61 @@ public class ManagementService {
         return true;
     }
 
+    /**
+     * 获得无密码的服务器记录
+     * @param serverId
+     * @return
+     */
+    public Server serverDetail(Integer serverId){
+        Server server=serverMapper.selectById(serverId);
+        server.setPassword(null);
+        return server;
+    }
+
+    public Server serverFullDetail(String host){
+        Integer userId=shiroKit.getId();
+        Server server=serverMapper.selectByHost(userId,host);
+        if(server==null){
+            throw new BussinessException(EmBussinessError.NOT_EXIST);
+        }
+        return server;
+    }
+
     public List<Server> selectServerList(){
         Integer userId=shiroKit.getId();
-        return serverMapper.selectServerListByUserId(userId);
+        List<Server> serverList=serverMapper.selectServerListByUserId(userId);
+        for(Server server:serverList){
+            server.setPassword(null);
+        }
+        return serverList;
     }
 
     public Page<Server> selectServerList(Page<Server> page){
-        return page.setRecords(serverMapper.selectServerList(page,shiroKit.getId()));
+        List<Server> serverList=serverMapper.selectServerList(page,shiroKit.getId());
+        for(Server server:serverList){
+            server.setPassword(null);
+        }
+        return page.setRecords(serverList);
     }
 
     public Boolean testConnection(Integer serverId) throws Exception {
         Server server=serverMapper.selectById(serverId);
-        return Ftp.getFtpUtil(server).isSession();
+        if(Ftp.getFtpUtil(server).isSession()){
+            StringBuilder commadResult=Ftp.getFtpUtil(server).execCommad(Const.HOST_CONF);
+            String[] confs=commadResult.toString().split("\n");
+            for(String conf:confs){
+                if(conf.startsWith(Const.CPU_CORES)){
+                    server.setCpuCores(Common.replaceBlank(conf).split(":")[1]);
+                }
+                if(conf.startsWith(Const.MODEL_NAME)){
+                    server.setModelName(Common.replaceBlank(conf).split(":")[1]);
+                }
+                if(conf.startsWith(Const.MEM_TOTAL)){
+                    server.setMemTotal(Common.replaceBlank(conf).split(":")[1]);
+                }
+            }
+            serverMapper.updateById(server);
+        };
+        return true;
     }
 }
