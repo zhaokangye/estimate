@@ -1,5 +1,8 @@
 package com.kang.estimate.core.error;
 
+/**
+ * @author 叶兆康
+ */
 public class BussinessException extends RuntimeException implements CommonError {
     private CommonError commonError;
     public BussinessException(CommonError commonError){

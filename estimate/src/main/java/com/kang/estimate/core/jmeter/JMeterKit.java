@@ -27,6 +27,9 @@ import org.apache.jmeter.util.JMeterUtils;
 import org.apache.jmeter.visualizers.SummaryReport;
 import org.apache.jorphan.collections.HashTree;
 
+/**
+ * @author 叶兆康
+ */
 public class JMeterKit {
 
 

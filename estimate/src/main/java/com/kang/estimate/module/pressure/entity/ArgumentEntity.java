@@ -9,7 +9,6 @@ import java.util.Date;
 
 /**
  * @author 叶兆康
- * @date 2019-11-26 09:00:29
  */
 @TableName("argument")
 public class ArgumentEntity {

@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author 叶兆康
+ */
 @Service
 public class MonitorServiceImpl implements MonitorService {
 
@@ -31,23 +34,42 @@ public class MonitorServiceImpl implements MonitorService {
 
     @Override
     public boolean isInstall(String host) {
-        return false;
+        Server server=managementService.serverFullDetail(host);
+        List<String> shell=Common.ftpOutPutToRow(Ftp.getFtpUtil(server).execCommad("find "+Const.CLIENT_SHELL_PATH));
+        if(shell.size()==1 && shell.get(0).equals("")){
+            // 监控脚本目录不存在
+            return false;
+        }
+        List<String> logList=Common.ftpOutPutToRow(Ftp.getFtpUtil(server).execCommad(Const.IS_LOG));
+        if(logList.size()==0){
+            // 查找不出日志，证明脚本未被安装或启动
+            return false;
+        }
+        return true;
     }
 
     @Override
     public boolean installMonitor(String host) {
         Server server=managementService.serverFullDetail(host);
+        // 创建目录
         Ftp.getFtpUtil(server).execCommad(Const.MKDIR_FOR_DETECT);
-        Ftp.getFtpUtil(server).upload(Const.ADD_TO_CROND_SHELL,Const.DETECT_PATH);
-        Ftp.getFtpUtil(server).upload(Const.TIMER_SHELL,Const.DETECT_PATH);
-        Ftp.getFtpUtil(server).upload(Const.DETECT_SHELL,Const.DETECT_PATH);
+        // 上传脚本
+        Ftp.getFtpUtil(server).upload(Const.ADD_TO_CROND_SHELL,Const.CLIENT_SHELL_PATH);
+        Ftp.getFtpUtil(server).upload(Const.TIMER_SHELL,Const.CLIENT_SHELL_PATH);
+        Ftp.getFtpUtil(server).upload(Const.DETECT_SHELL,Const.CLIENT_SHELL_PATH);
+        // 执行定时命令，重启crontab
         Ftp.getFtpUtil(server).execCommad(Const.INIT_DETECT);
         return true;
     }
 
     @Override
     public boolean uninstallMonitor(String host) {
-        return false;
+        Server server=managementService.serverFullDetail(host);
+        // 删除脚本
+        Ftp.getFtpUtil(server).execCommad(Const.STRONG_DELETE+Const.CLIENT_SHELL_PATH);
+        // 撤销定时命令
+        Ftp.getFtpUtil(server).execCommad(Const.UNINSTALL_MONITOR);
+        return true;
     }
 
     @Override

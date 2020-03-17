@@ -1,5 +1,8 @@
 package com.kang.estimate.module.pressure.entity;
 
+/**
+ * @author 叶兆康
+ */
 public class Sample {
     private Integer id;
     private String identifyCode;

@@ -93,7 +93,9 @@ public class DeployServiceImpl implements DeployService {
     public boolean deployApp(String host,String src,String dst){
         FileEntity fileEntity=fileMapper.selectByPath(src);
         if(fileEntity!=null&&fileEntity.getTotalSize()!=null){
-            Ftp.getFtpUtil(managementService.serverFullDetail(host)).upload(src,dst,fileEntity.getTotalSize(),shiroKit.getId()+src);
+            new Thread(()->{
+                Ftp.getFtpUtil(managementService.serverFullDetail(host)).upload(src,dst,fileEntity.getTotalSize(),shiroKit.getId()+src);
+            }).start();
             return true;
         }
         throw new BussinessException(EmBussinessError.NOT_EXIST);
@@ -104,6 +106,9 @@ public class DeployServiceImpl implements DeployService {
         String key=shiroKit.getId()+src;
         if(Const.UPLOAD_PERCENTAGE.containsKey(key)){
             BigDecimal percentage=Const.UPLOAD_PERCENTAGE.get(key);
+            if(percentage.compareTo(new BigDecimal(100))==0){
+                Const.UPLOAD_PERCENTAGE.remove(key);
+            }
             return percentage;
         }
         throw new BussinessException(EmBussinessError.NOT_EXIST);

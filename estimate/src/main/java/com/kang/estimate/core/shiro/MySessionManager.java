@@ -1,10 +1,8 @@
 package com.kang.estimate.core.shiro;
 
 import java.io.Serializable;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.apache.shiro.web.util.WebUtils;
@@ -12,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
-
+/**
+ * @author 叶兆康
+ */
 public class MySessionManager extends DefaultWebSessionManager {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String AUTHORIZATION = "Authorization";

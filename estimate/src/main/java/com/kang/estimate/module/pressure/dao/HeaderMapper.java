@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @author 叶兆康
- * @date 2019-11-26 09:02:41
  */
 @Mapper
 public interface HeaderMapper extends BaseMapper<HeaderEntity> {

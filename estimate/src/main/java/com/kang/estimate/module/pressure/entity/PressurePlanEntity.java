@@ -9,7 +9,6 @@ import java.util.Date;
 
 /**
  * @author 叶兆康
- * @date 2019-11-26 08:54:06
  */
 @TableName("pressure_plan")
 public class PressurePlanEntity {

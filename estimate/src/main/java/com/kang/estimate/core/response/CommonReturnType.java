@@ -1,5 +1,8 @@
 package com.kang.estimate.core.response;
 
+/**
+ * @author 叶兆康
+ */
 public class CommonReturnType {
     private String status;
     //若status=success，则data内返回前端需要的json数据

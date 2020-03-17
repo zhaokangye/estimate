@@ -11,7 +11,6 @@ import java.util.List;
 
 /**
  * @author 叶兆康
- * @date 2019-11-26 09:01:40
  */
 @Mapper
 public interface PressurePlanMapper extends BaseMapper<PressurePlanEntity> {

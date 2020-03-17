@@ -5,7 +5,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 /**
- * @author kang
+ * @author 叶兆康
  */
 public class PressureParams {
     private Integer id;

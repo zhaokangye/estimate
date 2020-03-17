@@ -11,12 +11,18 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
+/**
+ * @author 叶兆康
+ */
 @Configuration
 public class ShiroConfig {
+
+    @Value("${session.redis.expireTime}")
+    long expireTime;
 
     /**
      * 请求拦截
@@ -34,8 +40,6 @@ public class ShiroConfig {
         // 拦截器.
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/user", "anon");
-        filterChainDefinitionMap.put("/monitor/updateStats", "anon");
         filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setLoginUrl("/login");
         /*
@@ -56,10 +60,10 @@ public class ShiroConfig {
      * @return SecurityManager
      */
     @Bean
-    public SecurityManager securityManager() {
+    public SecurityManager securityManager(RedisSessionDao redisSessionDao) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myRealm());
-        securityManager.setSessionManager(sessionManager());
+        securityManager.setSessionManager(sessionManager(redisSessionDao));
         return securityManager;
     }
 
@@ -76,6 +80,20 @@ public class ShiroConfig {
         return myShiroRealm;
     }
 
+    /**
+     * 自定义sessionManager，用户的唯一标识，即Token或Authorization的认证
+     */
+    @Bean
+    public SessionManager sessionManager(RedisSessionDao redisSessionDao) {
+        MySessionManager mySessionManager = new MySessionManager();
+        mySessionManager.setGlobalSessionTimeout(expireTime*1000);
+        mySessionManager.setDeleteInvalidSessions(true);
+        mySessionManager.setSessionDAO(redisSessionDao);
+        mySessionManager.setSessionValidationSchedulerEnabled(true);
+        mySessionManager.setDeleteInvalidSessions(true);
+        return mySessionManager;
+    }
+
 //    /**
 //     * 密码凭证匹配器，作为自定义认证的基础 （由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了 ）
 //     *
@@ -89,15 +107,5 @@ public class ShiroConfig {
 //        hashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
 //        return hashedCredentialsMatcher;
 //    }
-
-    /**
-     * 自定义sessionManager，用户的唯一标识，即Token或Authorization的认证
-     */
-    @Bean
-    public SessionManager sessionManager() {
-        MySessionManager mySessionManager = new MySessionManager();
-        mySessionManager.setGlobalSessionTimeout(3600000L);
-        return mySessionManager;
-    }
 
 }

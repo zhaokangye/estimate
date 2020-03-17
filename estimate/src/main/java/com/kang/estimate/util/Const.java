@@ -25,7 +25,7 @@ public class Const {
     public static String MEM_TOTAL="MemTotal";
     public static String STATS_LOG="stats.";
     public static String SUFFIX=".log";
-    public static String UPDATE_PREFIX="cat /usr/local/estimate/";
+    public static String UPDATE_PREFIX="cat /usr/local/estimate/log/";
     public static String UPDATE_AFTER_SUFFIX=" |grep -A 9999999 \"";
     public static String UPDATE_GET_FIRST_SUFFIX="\"|head -1";
     public static String TIME="Time";
@@ -34,20 +34,28 @@ public class Const {
     public static String DISK_USAGE="DISK Usage";
 
     // 路径(本地）
-    public static String UPLOAD_PATH="C:\\Users\\hasee\\Desktop\\fileSave\\";
-    public static String ADD_TO_CROND_SHELL="C:\\Users\\hasee\\Desktop\\fileSave\\add_to_crond.sh";
-    public static String TIMER_SHELL="C:\\Users\\hasee\\Desktop\\fileSave\\timer.sh";
-    public static String DETECT_SHELL="C:\\Users\\hasee\\Desktop\\fileSave\\detect.sh";
+//    public static String UPLOAD_PATH="C:\\Users\\hasee\\Desktop\\fileSave\\";
+//    public static String ADD_TO_CROND_SHELL="C:\\Users\\hasee\\Desktop\\fileSave\\add_to_crond.sh";
+//    public static String TIMER_SHELL="C:\\Users\\hasee\\Desktop\\fileSave\\timer.sh";
+//    public static String DETECT_SHELL="C:\\Users\\hasee\\Desktop\\fileSave\\detect.sh";
 //     路径（线上）
-//    public static String UPLOAD_PATH="/usr/local/estimateBase/fileSave/";
-//    public static String ADD_TO_CROND_SHELL="/usr/local/estimateBase/shell/add_to_crond.sh";
-//    public static String TIMER_SHELL="/usr/local/estimateBase/shell/timer.sh";
-//    public static String DETECT_SHELL="/usr/local/estimateBase/shell/detect.sh";
+    public static String UPLOAD_PATH="/usr/local/estimateBase/fileSave/";
+    public static String ADD_TO_CROND_SHELL="/usr/local/estimateBase/shell/add_to_crond.sh";
+    public static String TIMER_SHELL="/usr/local/estimateBase/shell/timer.sh";
+    public static String DETECT_SHELL="/usr/local/estimateBase/shell/detect.sh";
 
-
-    public static String MKDIR_FOR_DETECT="cd /usr/local;mkdir estimate";
-    public static String DETECT_PATH="/usr/local/estimate";
-    public static String INIT_DETECT="cd /usr/local/estimate;sh add_to_crond.sh;sleep 3;systemctl restart crond";
+    // 主服务器监控程序路径
+    public static String MONITOR_BASE="/usr/local/estimateBase";
+    // 创建客户端监控程序文件夹
+    public static String MKDIR_FOR_DETECT="cd /usr/local;mkdir estimate;cd estimate;mkdir shell;mkdir log";
+    // 客户端脚本文件夹
+    public static String CLIENT_SHELL_PATH="/usr/local/estimate/shell";
+    // 启动定时任务
+    public static String INIT_DETECT="cd /usr/local/estimate/shell;sh add_to_crond.sh;sleep 3;systemctl restart crond";
+    // 是否有日志
+    public static String IS_LOG="ls /usr/local/estimate/log |grep stats*";
+    // 卸载定时任务
+    public static String UNINSTALL_MONITOR="sed -i '/timer.sh/d' /var/spool/cron/root ";
 
     // 进度条
     public static Map<String, BigDecimal> UPLOAD_PERCENTAGE=new HashMap<>();

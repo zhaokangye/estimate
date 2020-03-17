@@ -6,11 +6,13 @@ import com.kang.estimate.core.response.CommonReturnType;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author 叶兆康
+ */
 public class BaseController {
     @ExceptionHandler(Exception.class)//指定处理的错误
     @ResponseBody

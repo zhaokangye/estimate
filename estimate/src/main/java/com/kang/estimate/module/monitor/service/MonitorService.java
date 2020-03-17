@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * @author 叶兆康
  */
-public interface MonitorService {
+public interface MonitorService{
 
     /**
      * 是否已安装脚本

@@ -1,7 +1,7 @@
 package com.kang.estimate.core.error;
 
 /**
- * @author kang
+ * @author 叶兆康
  */
 public enum EmBussinessError implements CommonError {
     // 系统相关

@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
 
+/**
+ * @author 叶兆康
+ */
 @Component
 public class ShiroKit {
 

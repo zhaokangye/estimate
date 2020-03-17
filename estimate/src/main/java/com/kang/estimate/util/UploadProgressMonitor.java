@@ -44,7 +44,7 @@ public class UploadProgressMonitor implements SftpProgressMonitor {
     }
     @Override
     public void end() {
-        Const.UPLOAD_PERCENTAGE.remove(key);
+        Const.UPLOAD_PERCENTAGE.put(key,new BigDecimal(100));
         System.out.println("结束传输.");
     }
 }

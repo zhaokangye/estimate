@@ -3,7 +3,6 @@ package com.kang.estimate.util;
 import com.kang.estimate.core.error.BussinessException;
 import com.kang.estimate.core.error.EmBussinessError;
 import com.kang.estimate.module.management.entity.Server;
-
 import java.util.*;
 
 /**
@@ -92,7 +91,7 @@ public class TomcatUtil {
         String fullCommand="cd "+findWebappsPath()+Const.LIST_SUFFIX;
         StringBuilder raw=Ftp.getFtpUtil(this.server).execCommad(fullCommand);
         List<Map<String,String>> returnList=new ArrayList<>();
-        List<String> items=Arrays.asList(Common.ftpOutPutToRow(raw));
+        List<String> items=Common.ftpOutPutToRow(raw);
         Iterator<String> iterator=items.iterator();
         while (iterator.hasNext()){
             String item=iterator.next();

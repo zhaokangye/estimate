@@ -7,10 +7,10 @@ import org.apache.jmeter.reporters.ResultCollector;
 import org.apache.jmeter.reporters.Summariser;
 import org.apache.jmeter.samplers.SampleEvent;
 import org.apache.jmeter.samplers.SampleResult;
-import org.apache.jmeter.visualizers.SummaryReport;
 
-import java.util.Date;
-
+/**
+ * @author 叶兆康
+ */
 public class JmeterResultCollector extends ResultCollector {
 
     private RedisUtil redisUtil;

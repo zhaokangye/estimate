@@ -9,11 +9,13 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author 叶兆康
+ */
 public class MyRealm extends AuthorizingRealm {
 
     @Autowired

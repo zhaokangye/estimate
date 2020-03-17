@@ -1,5 +1,8 @@
 package com.kang.estimate.module.monitor.entity;
 
+/**
+ * @author 叶兆康
+ */
 public class Stats {
 
     private String time;

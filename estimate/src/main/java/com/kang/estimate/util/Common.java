@@ -2,12 +2,7 @@ package com.kang.estimate.util;
 
 import com.kang.estimate.core.error.BussinessException;
 import com.kang.estimate.core.error.EmBussinessError;
-import com.kang.estimate.core.shiro.ShiroKit;
-import com.kang.estimate.module.management.dao.ServerMapper;
-import com.kang.estimate.module.management.entity.Server;
 import com.kang.estimate.module.monitor.entity.Stats;
-import com.kang.estimate.util.design_pattern.singleton.EmumSingleton;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -113,8 +108,8 @@ public class Common {
      * @param raw
      * @return
      */
-    public static String[] ftpOutPutToRow(StringBuilder raw){
-        return raw.toString().split("\n");
+    public static List<String> ftpOutPutToRow(StringBuilder raw){
+        return Arrays.asList(raw.toString().split("\n"));
     }
 
     /**
@@ -154,7 +149,7 @@ public class Common {
      * @return
      */
     public static List<Stats> convertToStats(StringBuilder rawData){
-        String[] rows=ftpOutPutToRow(rawData);
+        List<String> rows=ftpOutPutToRow(rawData);
         List<Stats> statsList=new ArrayList<>();
         for(String row:rows){
             String[] items=row.split("&");
