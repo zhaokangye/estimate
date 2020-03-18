@@ -7,15 +7,12 @@ import com.kang.estimate.core.error.EmBussinessError;
 import com.kang.estimate.core.response.CommonReturnType;
 import com.kang.estimate.module.management.entity.PageParam;
 import com.kang.estimate.module.pressure.entity.PressureParams;
-import com.kang.estimate.module.pressure.entity.PressurePlanEntity;
-import com.kang.estimate.module.pressure.service.PressureService;
+import com.kang.estimate.module.pressure.service.impl.PressureServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * @author 叶兆康
@@ -25,7 +22,7 @@ import java.util.List;
 public class PressureController extends BaseController {
 
     @Autowired
-    private PressureService pressureService;
+    private PressureServiceImpl pressureServiceImpl;
 
     /**
      * 压力测试计划
@@ -33,7 +30,7 @@ public class PressureController extends BaseController {
      */
     @GetMapping("/plan/list")
     public CommonReturnType obtainPressurePlan(){
-        return CommonReturnType.create(pressureService.obtainPressurePlan());
+        return CommonReturnType.create(pressureServiceImpl.obtainPressurePlan());
     }
 
     /**
@@ -46,7 +43,7 @@ public class PressureController extends BaseController {
         if(bindingResult.hasErrors()){
             throw new BussinessException(EmBussinessError.PARAMETER_VALIDATION_ERROR);
         }
-        return CommonReturnType.create(pressureService.savePlan(pressureParams));
+        return CommonReturnType.create(pressureServiceImpl.savePlan(pressureParams));
     }
 
     /**
@@ -57,7 +54,7 @@ public class PressureController extends BaseController {
     @DeleteMapping("/plan")
     public CommonReturnType deletePlan(@RequestBody String param){
         Integer id=Integer.parseInt(JSON.parseObject(param).get("planId").toString());
-        return CommonReturnType.create(pressureService.deletePlan(id));
+        return CommonReturnType.create(pressureServiceImpl.deletePlan(id));
     }
 
     /**
@@ -70,7 +67,7 @@ public class PressureController extends BaseController {
         if(bindingResult.hasErrors()){
             throw new BussinessException(EmBussinessError.PARAMETER_VALIDATION_ERROR);
         }
-        return CommonReturnType.create(pressureService.editPlan(pressureParams));
+        return CommonReturnType.create(pressureServiceImpl.editPlan(pressureParams));
     }
 
     /**
@@ -80,7 +77,7 @@ public class PressureController extends BaseController {
      */
     @GetMapping("/plan/{planId}")
     public CommonReturnType planDetail(@PathVariable Integer planId){
-        return CommonReturnType.create(pressureService.planDetail(planId));
+        return CommonReturnType.create(pressureServiceImpl.planDetail(planId));
     }
 
     /**
@@ -90,7 +87,7 @@ public class PressureController extends BaseController {
      */
     @GetMapping("/init/{planId}")
     public CommonReturnType initTest(@PathVariable Integer planId){
-        return CommonReturnType.create(pressureService.initPressureTest(planId));
+        return CommonReturnType.create(pressureServiceImpl.initPressureTest(planId));
     }
 
     /**
@@ -100,6 +97,6 @@ public class PressureController extends BaseController {
      */
     @PostMapping("/result")
     public CommonReturnType obtainPressureTestResult(@RequestBody PageParam pageParam){
-        return CommonReturnType.create(pressureService.obtainPressureTestResult(pageParam));
+        return CommonReturnType.create(pressureServiceImpl.obtainPressureTestResult(pageParam));
     }
 }
