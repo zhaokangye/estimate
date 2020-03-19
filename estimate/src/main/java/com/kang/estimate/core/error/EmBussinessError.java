@@ -11,10 +11,12 @@ public enum EmBussinessError implements CommonError {
     NOT_AUTHORIZE(10004,"无权限"),
     PARAMETER_LACK(10005,"缺少足够参数"),
 
-    // 登陆相关
+    // 权限认证相关
     ALREADY_REGISTERD(20001,"该用户名已注册"),
     WROING_PASSWORD(20003,"密码不正确"),
     NOT_LOGIN(20004,"未登录"),
+    NO_ROLE(20005,"用户没有角色"),
+    UNAUTHORIZED(20006,"您没有权限"),
 
     // 部署相关
     CONNECT_REFUSED(30001,"主机连接失败"),

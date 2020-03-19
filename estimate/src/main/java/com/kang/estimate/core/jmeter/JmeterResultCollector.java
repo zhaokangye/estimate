@@ -21,6 +21,7 @@ public class JmeterResultCollector extends ResultCollector {
         super(summer);
         this.redisUtil=redisUtil;
         this.identifyCode=identifyCode;
+        redisUtil.hset("FalseCount",identifyCode,0);
     }
 
     @Override
@@ -41,5 +42,9 @@ public class JmeterResultCollector extends ResultCollector {
         sample.setActiveCount(Thread.activeCount());
         String jsonStr= JSON.toJSONString(sample);
         redisUtil.lSet(identifyCode,jsonStr);
+        if(result.isSuccessful()==false){
+            // 连接失败
+            redisUtil.hincr("FalseCount",identifyCode,1);
+        }
     }
 }

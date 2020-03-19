@@ -16,6 +16,7 @@ public class User {
     private Integer id;
     private String userName;
     private String password;
+    private int roleId;
     @TableLogic
     private String stsCd;
 
@@ -41,6 +42,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     public String getStsCd() {

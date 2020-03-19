@@ -4,6 +4,8 @@ import com.kang.estimate.core.error.BussinessException;
 import com.kang.estimate.core.error.EmBussinessError;
 import com.kang.estimate.core.response.CommonReturnType;
 import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +25,12 @@ public class BaseController {
             BussinessException bussinessException = (BussinessException) ex;
             responseData.put("errCode", bussinessException.getErrCode());
             responseData.put("errMsg", bussinessException.getErrMsg());
-        }else if(ex instanceof IncorrectCredentialsException){
+        }else if(ex instanceof IncorrectCredentialsException) {
             responseData.put("errCode", EmBussinessError.WROING_PASSWORD.getErrCode());
-            responseData.put("errMsg",EmBussinessError.WROING_PASSWORD.getErrMsg());
+            responseData.put("errMsg", EmBussinessError.WROING_PASSWORD.getErrMsg());
+        }else if(ex instanceof AuthorizationException){
+            responseData.put("errCode", EmBussinessError.UNAUTHORIZED.getErrCode());
+            responseData.put("errMsg", EmBussinessError.UNAUTHORIZED.getErrMsg()+" "+ex.getMessage());
         }else{
             responseData.put("errCode", EmBussinessError.UNKNOW_ERROR.getErrCode());
             responseData.put("errMsg",EmBussinessError.UNKNOW_ERROR.getErrMsg());

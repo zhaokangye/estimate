@@ -14,6 +14,7 @@ import com.kang.estimate.util.Const;
 import com.kang.estimate.util.Ftp;
 import com.kang.estimate.util.TomcatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,9 @@ import java.util.Map;
  */
 @Service
 public class DeployServiceImpl implements DeployService {
+
+    @Value("${UPLOAD_PATH}")
+    String UPLOAD_PATH;
 
     @Autowired
     private FileMapper fileMapper;
@@ -59,7 +63,7 @@ public class DeployServiceImpl implements DeployService {
     @Override
     public String uploadFile(MultipartFile file){
         String fileName = file.getOriginalFilename();
-        String filePath = Const.UPLOAD_PATH;
+        String filePath = UPLOAD_PATH;
         String path=filePath+fileName;
         File dest = new File(path);
         try {

@@ -7,6 +7,13 @@
         from user
         where userName=#{userName}
     </select>
+
+    <select id="getRoleName" resultType="String">
+        select roleName
+        from user
+        left join role on `user`.roleId=role.id
+        where stsCd='A' and `user`.userName=#{userName}
+    </select>
 </mapper>
 
 

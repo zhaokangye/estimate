@@ -13,6 +13,7 @@ import com.kang.estimate.util.Common;
 import com.kang.estimate.util.Const;
 import com.kang.estimate.util.Ftp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -26,6 +27,15 @@ import java.util.List;
  */
 @Service
 public class MonitorServiceImpl implements MonitorService {
+
+    @Value("${ADD_TO_CROND_SHELL}")
+    String ADD_TO_CROND_SHELL;
+
+    @Value("${TIMER_SHELL}")
+    String TIMER_SHELL;
+
+    @Value("${DETECT_SHELL}")
+    String DETECT_SHELL;
 
     @Autowired
     private ManagementService managementService;
@@ -54,9 +64,9 @@ public class MonitorServiceImpl implements MonitorService {
         // 创建目录
         Ftp.getFtpUtil(server).execCommad(Const.MKDIR_FOR_DETECT);
         // 上传脚本
-        Ftp.getFtpUtil(server).upload(Const.ADD_TO_CROND_SHELL,Const.CLIENT_SHELL_PATH);
-        Ftp.getFtpUtil(server).upload(Const.TIMER_SHELL,Const.CLIENT_SHELL_PATH);
-        Ftp.getFtpUtil(server).upload(Const.DETECT_SHELL,Const.CLIENT_SHELL_PATH);
+        Ftp.getFtpUtil(server).upload(ADD_TO_CROND_SHELL,Const.CLIENT_SHELL_PATH);
+        Ftp.getFtpUtil(server).upload(TIMER_SHELL,Const.CLIENT_SHELL_PATH);
+        Ftp.getFtpUtil(server).upload(DETECT_SHELL,Const.CLIENT_SHELL_PATH);
         // 执行定时命令，重启crontab
         Ftp.getFtpUtil(server).execCommad(Const.INIT_DETECT);
         return true;

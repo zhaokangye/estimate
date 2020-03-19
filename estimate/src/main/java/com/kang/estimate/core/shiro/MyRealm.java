@@ -6,12 +6,12 @@ import com.kang.estimate.module.management.dao.UserMapper;
 import com.kang.estimate.module.management.entity.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * @author 叶兆康
@@ -20,6 +20,8 @@ public class MyRealm extends AuthorizingRealm {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private ShiroKit shiroKit;
 
     /**
      * 权限验证
@@ -28,7 +30,15 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        Set<String> role=new HashSet<>(1);
+        String roleName=shiroKit.getRoleName();
+        if(roleName.isEmpty()){
+            throw new BussinessException(EmBussinessError.NO_ROLE);
+        }
+        role.add(roleName);
+        authorizationInfo.setRoles(role);
+        return authorizationInfo;
     }
 
     /**

@@ -31,12 +31,18 @@ public class TomcatUtil {
     public String findWebappsPath(){
         try {
             StringBuilder path = Ftp.getFtpUtil(this.server).execCommad(Const.FIND_WEBAPPS);
+            if (path.length()==0){
+                throw new BussinessException(EmBussinessError.PATH_NOT_FOUND);
+            }
             if(path.indexOf(".")==0){
                 path=path.replace(0,1,"/usr");
             }
             return Common.replaceBlank(path.toString());
         } catch (Exception e) {
             e.printStackTrace();
+            if(e instanceof  BussinessException){
+                throw e;
+            }
             throw new BussinessException(EmBussinessError.UNKNOW_ERROR);
         }
     }
@@ -56,6 +62,9 @@ public class TomcatUtil {
             throw new BussinessException(EmBussinessError.PATH_NOT_FOUND);
         } catch (Exception e) {
             e.printStackTrace();
+            if(e instanceof  BussinessException){
+                throw e;
+            }
             throw new BussinessException(EmBussinessError.UNKNOW_ERROR);
         }
     }

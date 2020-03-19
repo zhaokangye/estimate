@@ -60,19 +60,12 @@ public class PressureServiceImpl implements PressureService {
         long listSize=redisUtil.lGetListSize(pageParam.getIdentifyCode());
         BigDecimal s=new BigDecimal(ms).divide(new BigDecimal(1000),2,ROUND_HALF_UP);
         BigDecimal tps=new BigDecimal(listSize).divide(s,2,ROUND_HALF_UP);
-        // 计算false率
-        int falseCount=0;
-        for(Sample sample:sampleList){
-            if (!sample.getSuccess().equals("true")){
-                falseCount++;
-            }
-        }
         // 整合到返回map
         Map<String,Object> returnVal=new HashMap<>(2);
         returnVal.put("total",listSize);
         returnVal.put("sampleList",sampleList);
         returnVal.put("tps",listSize+" in "+s+"s="+tps+"/s");
-        returnVal.put("falseRatio",falseCount+"/"+sampleList.size());
+        returnVal.put("falseRatio",redisUtil.hget("FalseCount",pageParam.getIdentifyCode())+"/"+listSize);
         return returnVal;
     }
 

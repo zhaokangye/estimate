@@ -29,4 +29,14 @@ public class ShiroKit {
         }
         return user.getId();
     }
+
+    public String getRoleName(){
+        Subject subject = SecurityUtils.getSubject();
+        String userName=(String) subject.getPrincipal();
+        String roleName=userMapper.getRoleName(userName);
+        if(roleName==null){
+            throw new BussinessException(EmBussinessError.NOT_EXIST);
+        }
+        return roleName;
+    };
 }

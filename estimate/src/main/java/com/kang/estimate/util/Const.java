@@ -33,17 +33,6 @@ public class Const {
     public static String MEMORY_USAGE="MEMORY Usage";
     public static String DISK_USAGE="DISK Usage";
 
-    // 路径(本地）
-//    public static String UPLOAD_PATH="C:\\Users\\hasee\\Desktop\\fileSave\\";
-//    public static String ADD_TO_CROND_SHELL="C:\\Users\\hasee\\Desktop\\fileSave\\add_to_crond.sh";
-//    public static String TIMER_SHELL="C:\\Users\\hasee\\Desktop\\fileSave\\timer.sh";
-//    public static String DETECT_SHELL="C:\\Users\\hasee\\Desktop\\fileSave\\detect.sh";
-//     路径（线上）
-    public static String UPLOAD_PATH="/usr/local/estimateBase/fileSave/";
-    public static String ADD_TO_CROND_SHELL="/usr/local/estimateBase/shell/add_to_crond.sh";
-    public static String TIMER_SHELL="/usr/local/estimateBase/shell/timer.sh";
-    public static String DETECT_SHELL="/usr/local/estimateBase/shell/detect.sh";
-
     // 主服务器监控程序路径
     public static String MONITOR_BASE="/usr/local/estimateBase";
     // 创建客户端监控程序文件夹
@@ -60,4 +49,6 @@ public class Const {
     // 进度条
     public static Map<String, BigDecimal> UPLOAD_PERCENTAGE=new HashMap<>();
 
+    // KB转G
+    public static BigDecimal KB2G=new BigDecimal("1048576");
 }

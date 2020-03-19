@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 
@@ -78,6 +80,9 @@ public class ManagementService {
     public boolean editServer(Server server){
         server.setUpdateBy(shiroKit.getId());
         server.setUpdateTime(new Date());
+        if (server.getPassword().isEmpty()){
+            server.setPassword(null);
+        }
         serverMapper.updateById(server);
         return true;
     }
@@ -132,7 +137,9 @@ public class ManagementService {
                     server.setModelName(Common.replaceBlank(conf).split(":")[1]);
                 }
                 if(conf.startsWith(Const.MEM_TOTAL)){
-                    server.setMemTotal(Common.replaceBlank(conf).split(":")[1]);
+                    String  mem=Common.replaceBlank(conf).split(":")[1];
+                    BigDecimal memBD=new BigDecimal(mem.replace("kB",""));
+                    server.setMemTotal(memBD.divide(Const.KB2G,2, RoundingMode.HALF_UP).toString()+"G");
                 }
             }
             serverMapper.updateById(server);

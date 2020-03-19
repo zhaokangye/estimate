@@ -8,6 +8,7 @@ import com.kang.estimate.core.response.CommonReturnType;
 import com.kang.estimate.module.management.entity.PageParam;
 import com.kang.estimate.module.pressure.entity.PressureParams;
 import com.kang.estimate.module.pressure.service.impl.PressureServiceImpl;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
