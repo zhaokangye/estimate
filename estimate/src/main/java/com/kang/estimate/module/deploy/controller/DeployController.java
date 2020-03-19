@@ -5,6 +5,7 @@ import com.kang.estimate.core.error.BussinessException;
 import com.kang.estimate.core.error.EmBussinessError;
 import com.kang.estimate.core.response.CommonReturnType;
 import com.kang.estimate.module.deploy.service.impl.DeployServiceImpl;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -87,6 +88,7 @@ public class DeployController extends BaseController {
      * @param host
      * @return
      */
+    @RequiresRoles("USER")
     @PostMapping("/restart")
     public CommonReturnType restartTomcat(@RequestParam String host) throws InterruptedException {
         return CommonReturnType.create(deployService.restartTomcat(host));
