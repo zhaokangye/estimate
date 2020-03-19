@@ -109,6 +109,7 @@ public class DeployController extends BaseController {
      * @param host
      * @return
      */
+    @RequiresRoles("USER")
     @PostMapping("/delete")
     public CommonReturnType delete(@RequestParam String host,@RequestParam String path){
         return CommonReturnType.create(deployService.delete(host,path));

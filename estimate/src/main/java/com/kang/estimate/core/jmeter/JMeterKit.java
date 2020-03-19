@@ -118,6 +118,7 @@ public class JMeterKit {
         httpSamplerProxy.setMethod(pressureParams.getMethod());
         httpSamplerProxy.setConnectTimeout("5000");
         httpSamplerProxy.setUseKeepAlive(true);
+        httpSamplerProxy.setAutoRedirects(true);
         httpSamplerProxy.setProperty(TestElement.TEST_CLASS, HTTPSamplerProxy.class.getName());
         httpSamplerProxy.setProperty(TestElement.GUI_CLASS, HttpTestSampleGui.class.getName());
         // 参数设置
