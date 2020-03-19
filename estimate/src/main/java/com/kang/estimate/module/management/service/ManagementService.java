@@ -128,6 +128,7 @@ public class ManagementService {
         Server server=serverMapper.selectById(serverId);
         if(Ftp.getFtpUtil(server).isSession()){
             StringBuilder commadResult=Ftp.getFtpUtil(server).execCommad(Const.HOST_CONF);
+            Ftp.release();
             String[] confs=commadResult.toString().split("\n");
             for(String conf:confs){
                 if(conf.startsWith(Const.CPU_CORES)){

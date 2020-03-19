@@ -51,6 +51,7 @@ public class MonitorServiceImpl implements MonitorService {
             return false;
         }
         List<String> logList=Common.ftpOutPutToRow(Ftp.getFtpUtil(server).execCommad(Const.IS_LOG));
+        Ftp.release();
         if(logList.size()==0){
             // 查找不出日志，证明脚本未被安装或启动
             return false;
@@ -69,6 +70,7 @@ public class MonitorServiceImpl implements MonitorService {
         Ftp.getFtpUtil(server).upload(DETECT_SHELL,Const.CLIENT_SHELL_PATH);
         // 执行定时命令，重启crontab
         Ftp.getFtpUtil(server).execCommad(Const.INIT_DETECT);
+        Ftp.release();
         return true;
     }
 
@@ -79,6 +81,7 @@ public class MonitorServiceImpl implements MonitorService {
         Ftp.getFtpUtil(server).execCommad(Const.STRONG_DELETE+Const.CLIENT_SHELL_PATH);
         // 撤销定时命令
         Ftp.getFtpUtil(server).execCommad(Const.UNINSTALL_MONITOR);
+        Ftp.release();
         return true;
     }
 
@@ -144,6 +147,7 @@ public class MonitorServiceImpl implements MonitorService {
             redisUtil.lSet(key,jsonStr,3600);
         }
         List<List<Object>> returnVal=readStats(key);
+        Ftp.release();
         return returnVal;
     }
 

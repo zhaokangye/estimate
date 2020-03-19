@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface FileMapper extends BaseMapper<FileEntity> {
 
-    FileEntity selectByPath(@Param("path") String path);
+    FileEntity selectByPath(@Param("path") String path,@Param("createBy") Integer createBy);
 
     List<FileEntity> selectFileList(@Param("createBy") Integer createBy);
 }

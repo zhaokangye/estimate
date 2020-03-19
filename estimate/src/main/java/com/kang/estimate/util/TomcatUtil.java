@@ -31,6 +31,7 @@ public class TomcatUtil {
     public String findWebappsPath(){
         try {
             StringBuilder path = Ftp.getFtpUtil(this.server).execCommad(Const.FIND_WEBAPPS);
+            Ftp.release();
             if (path.length()==0){
                 throw new BussinessException(EmBussinessError.PATH_NOT_FOUND);
             }
@@ -50,6 +51,7 @@ public class TomcatUtil {
     public String findBinPath(){
         try {
             StringBuilder commadResult = Ftp.getFtpUtil(this.server).execCommad(Const.FIND_BIN);
+            Ftp.release();
             String[] paths=commadResult.toString().split("\n");
             for(String path:paths){
                 if(path.contains("tomcat")){

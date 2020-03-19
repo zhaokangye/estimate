@@ -94,7 +94,7 @@ public class Ftp {
                 Thread.sleep(1000);
             }
             channelExec.disconnect();
-            closeSession();
+//            closeSession();
         }catch (Exception e){
             e.printStackTrace();
             throw new BussinessException(EmBussinessError.CONNECT_REFUSED);
@@ -115,7 +115,7 @@ public class Ftp {
             channelSftp.put(src, dst);
             channelSftp.quit();
             channel.disconnect();
-            closeSession();
+//            closeSession();
         }catch (Exception e){
             e.printStackTrace();
             throw new BussinessException(EmBussinessError.UNKNOW_ERROR);
@@ -137,7 +137,7 @@ public class Ftp {
             channelSftp.put(src, dst,new UploadProgressMonitor(key,totalSize),ChannelSftp.OVERWRITE);
             channelSftp.quit();
             channel.disconnect();
-            closeSession();
+//            closeSession();
         }catch (Exception e){
             e.printStackTrace();
             throw new BussinessException(EmBussinessError.UNKNOW_ERROR);

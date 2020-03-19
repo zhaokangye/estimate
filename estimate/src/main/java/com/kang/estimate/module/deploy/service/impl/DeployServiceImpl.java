@@ -69,7 +69,7 @@ public class DeployServiceImpl implements DeployService {
         try {
             file.transferTo(dest);
             // 文件路径和大小记录到数据库
-            FileEntity fileEntity=fileMapper.selectByPath(path);
+            FileEntity fileEntity=fileMapper.selectByPath(path,shiroKit.getId());
             if(fileEntity!=null){
                 fileEntity.setPath(filePath);
                 fileEntity.setFileName(fileName);
@@ -95,10 +95,11 @@ public class DeployServiceImpl implements DeployService {
 
     @Override
     public boolean deployApp(String host,String src,String dst){
-        FileEntity fileEntity=fileMapper.selectByPath(src);
+        FileEntity fileEntity=fileMapper.selectByPath(src,shiroKit.getId());
         if(fileEntity!=null&&fileEntity.getTotalSize()!=null){
             new Thread(()->{
                 Ftp.getFtpUtil(managementService.serverFullDetail(host)).upload(src,dst,fileEntity.getTotalSize(),shiroKit.getId()+src);
+                Ftp.release();
             }).start();
             return true;
         }
@@ -128,6 +129,7 @@ public class DeployServiceImpl implements DeployService {
             tomcatUtil.kill();
         }
         tomcatUtil.start();
+        Ftp.release();
         if(tomcatUtil.isStarted()==true){
             return true;
         }else {
@@ -140,6 +142,7 @@ public class DeployServiceImpl implements DeployService {
         Server server=managementService.serverFullDetail(host);
         TomcatUtil tomcatUtil=new TomcatUtil(server);
         List<Map<String,String>> returnVal=tomcatUtil.listAll();
+        Ftp.release();
         return returnVal;
     }
 
@@ -148,6 +151,7 @@ public class DeployServiceImpl implements DeployService {
         Server server=managementService.serverFullDetail(host);
         TomcatUtil tomcatUtil=new TomcatUtil(server);
         tomcatUtil.deleteFile(path);
+        Ftp.release();
         return true;
     }
 
